@@ -1,6 +1,6 @@
 options:
 	update_message: true
-	version: 1.0
+	version: 1.1
 	author: "WR_Doll770"
 	fill_1: gray stained glass pane named " "
 	fill_2: red stained glass pane named " "
@@ -10,8 +10,25 @@ options:
 	lagg: piston named "&4&lLagg-Machines" with lore "&fBuilding or Using them."
 	dupe: 64 diamond blocks named "&4&lDuping" with lore "&fDuping to get money or items."
 	chat: book and quill named "&c&lChat Offense" with lore "&fAny sort of insult ect."
-	advertise: goat horn named "&c&lAdvertising" with lore "&fAdvertising the own/other Server/Channel ect."
+	advertise: goat horn named "&c&lAdvertising" with lore "&fAdvertising the own/other Servers/Channels ect."
 	permission: &c&lPUNISH &fYou dont have the permission to do that!
+
+on join:
+	set {punish::reports::hacking::%{report::tmp::%player's name%}%} to 0
+	set {punish::reports::bug::%{report::tmp::%player's name%}%} to 0
+	set {punish::reports::lagg::%{report::tmp::%player's name%}%} to 0
+	set {punish::reports::dupe::%{report::tmp::%player's name%}%} to 0
+	set {punish::reports::chat::%{report::tmp::%player's name%}%} to 0
+	set {punish::reports::advertise::%{report::tmp::%player's name%}%} to 0
+	set {_tmp} to true
+	set {tmp} to 0
+	while {_tmp} is true:
+		set {_tmp} to false
+		if {playerlist::%{tmp}%} is set:
+			set {_tmp} to true
+			add 1 to {tmp}
+		else:
+			set {playerlist::%{tmp}%} to player's name
 
 command /punish [<offline player>] [<text>]:
 	permission: punish.menu
@@ -248,7 +265,6 @@ command /punish [<offline player>] [<text>]:
 			set slot 32 of metadata tag "punish_menu_advertise" of player to red dye named "&4&LPerma Mute" with lore "&fOnly for the ones that dont stop even after 30d mute." and "&4Perma-Mute"
 
 every 10 minutes:
-	broadcast "hey"
 	set {punish::version} to text from "https://pastebin.com/raw/kGmrpZZX"
 	set {punish::version_vrf} to text from "https://pastebin.com/raw/yBnWMuJM"
 	set {punish::version_au} to text from "https://pastebin.com/raw/sxQC4Mgc"
@@ -788,6 +804,7 @@ command /spec [<player>]:
 		if {punish::spectate::%player's name%} is false:
 			if arg-1 is set:
 				send "&c&lPUNISH &fYou are now spectating %arg-1%"
+				send "&c&lPUNISH &fdo /spec to leave spectator mode!"
 				set {punish::spectate::%player's name%} to true
 				set {punish::location::%player's name%} to player's location
 				hide player from all players
@@ -841,7 +858,7 @@ on tab complete of "/report":
 command /report [<offline player>] [<text>]:
 	trigger:
 		if arg-1 is not set:
-			send "&c&lREPORT &f Correct Usage: &6/report&f <player> <reason>"
+			send "&c&lREPORT &fCorrect Usage: &6/report&f <player> <reason>"
 		else:
 			set {report::tmp::%player's name%} to arg-1
 			if arg-2 is not set:
@@ -858,6 +875,18 @@ command /report [<offline player>] [<text>]:
 			else:
 				log "%player's name% reported %{report::tmp::%player's name%}% for %arg-2%" to "reports"
 				log "%player's name% reported %{report::tmp::%player's name%}% for %arg-2%" to "reports-%{report::tmp::%player's name%}%"
+				if arg-2 is "Hacking":
+					add 1 to {punish::reports::hacking::%{report::tmp::%player's name%}%}
+				if arg-2 is "Lagg Machine":
+					add 1 to {punish::reports::lagg::%{report::tmp::%player's name%}%}
+				if arg-2 is "Bug-/Glitch Using":
+					add 1 to {punish::reports::bug::%{report::tmp::%player's name%}%}
+				if arg-2 is "Duping":
+					add 1 to {punish::reports::dupe::%{report::tmp::%player's name%}%}
+				if arg-2 is "Chat Offense":
+					add 1 to {punish::reports::chat::%{report::tmp::%player's name%}%}
+				if arg-2 is "Advertising":
+					add 1 to {punish::reports::advertise::%{report::tmp::%player's name%}%}
 				send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
 
 on inventory click:
@@ -867,33 +896,82 @@ on inventory click:
 			send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
 			log "%player's name% reported %{report::tmp::%player's name%}% for Hacking" to "reports"
 			log "%player's name% reported %{report::tmp::%player's name%}% for Hacking" to "reports-%{report::tmp::%player's name%}%"
+			add 1 to {punish::reports::hacking::%{report::tmp::%player's name%}%}
 			close player's inventory
 		else if event-slot is 11:
 			send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
 			log "%player's name% reported %{report::tmp::%player's name%}% for Bug-/Glitch Using" to "reports"
 			log "%player's name% reported %{report::tmp::%player's name%}% for Bug-/Glitch Using" to "reports-%{report::tmp::%player's name%}%"
+			add 1 to {punish::reports::bug::%{report::tmp::%player's name%}%}
 			close player's inventory
 		else if event-slot is 12:
 			send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
 			log "%player's name% reported %{report::tmp::%player's name%}% for Building/Using a Lagg Machine" to "reports"
 			log "%player's name% reported %{report::tmp::%player's name%}% for Building/Using a Lagg Machine" to "reports-%{report::tmp::%player's name%}%"
+			add 1 to {punish::reports::lagg::%{report::tmp::%player's name%}%}
 			close player's inventory
 		else if event-slot is 14:
 			send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
 			log "%player's name% reported %{report::tmp::%player's name%}% for Duping" to "reports"
 			log "%player's name% reported %{report::tmp::%player's name%}% for Duping" to "reports-%{report::tmp::%player's name%}%"
+			add 1 to {punish::reports::dupe::%{report::tmp::%player's name%}%}
 			close player's inventory
 		else if event-slot is 15:
 			send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
 			log "%player's name% reported %{report::tmp::%player's name%}% for Chat Offense" to "reports"
 			log "%player's name% reported %{report::tmp::%player's name%}% for Chat Offense" to "reports-%{report::tmp::%player's name%}%"
+			add 1 to {punish::reports::chat::%{report::tmp::%player's name%}%}
 			close player's inventory
 		else if event-slot is 16:
 			send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
 			log "%player's name% reported %{report::tmp::%player's name%}% for Advertising" to "reports"
 			log "%player's name% reported %{report::tmp::%player's name%}% for Advertising" to "reports-%{report::tmp::%player's name%}%"
+			add 1 to {punish::reports::advertise::%{report::tmp::%player's name%}%}
 			close player's inventory
 
-command /reports:
+command /reports [<offline player>]:
 	permission: punish.reports
 	trigger:
+		if arg-1 is not set:
+			send "&c&lREPORTS &fCorrect Usage: &6/reports &f<player>"
+		else:
+			set {report::tmp::%player's name%} to arg-1
+			set {punish::report::tmp} to {punish::reports::hacking::%arg-1's name%} + {punish::reports::bug::%arg-1's name%} + {punish::reports::lagg::%arg-1's name%} + {punish::reports::dupe::%arg-1's name%} + {punish::reports::chat::%arg-1's name%} + {punish::reports::advertise::%arg-1's name%}
+			set metadata tag "reports" of player to chest inventory with 6 rows named "&c&lReports"
+			set slot 4 of metadata tag "reports" of player to (skull of "%arg-1%" parsed as offline player) named "&6Punishing: %arg-1%" with lore "&fPrevious Mutes: &e%{PreMutes::%arg-1's name%}%" and "&fPrevious Bans: &e%{PreBans::%arg-1's name%}%" and "&6Reports in total: %{punish::report::tmp}%"
+			set slot 19 of metadata tag "reports" of player to {@hack} and "&6Reports for Hacking: %{punish::reports::hacking::%arg-1's name%}%"
+			set slot 22 of metadata tag "reports" of player to {@bug} and "&6Reports for Bug-/Glitch Using: %{punish::reports::bug::%arg-1's name%}%"
+			set slot 25 of metadata tag "reports" of player to {@lagg} and "&6Reports for Lagg Machines: %{punish::reports::lagg::%arg-1's name%}%"
+			set slot 37 of metadata tag "reports" of player to {@dupe} and "&6Reports for Duping: %{punish::reports::dupe::%arg-1's name%}%"
+			set slot 40 of metadata tag "reports" of player to {@chat} and "&6Reports for Chat Offense: %{punish::reports::chat::%arg-1's name%}%"
+			set slot 43 of metadata tag "reports" of player to {@advertise} and "&6Reports for Advertising: %{punish::reports::advertise::%arg-1's name%}%"
+			set slot 53 of metadata tag "reports" of player to white stained glass pane named "&f&lClear" with lore "&fClear player's reports"
+			set slot 8 of metadata tag "reports" of player to spyglass named "&c&lSpectate current player"
+			set slot 0 and 1 and 2 and 3 and 5 and 6 and 7 of metadata tag "reports" of player to {@fill_2}
+			set slot 9 and 10 and 11 and 12 and 13 and 14 and 15 and 16 and 17 and 18 and 20 and 21 and 23 and 24 and 26 and 27 and 28 and 29 and 30 and 31 and 32 and 33 and 34 and 35 and 36 and 38 and 39 and 41 and 42 and 44 and 45 and 46 and 47 and 48 and 49 and 50 and 51 and 52 of metadata tag "reports" of player to {@fill_1}
+			open (metadata tag "reports" of player) to player
+
+on tab complete of "/reports":
+	set {_tmp_} to true
+	set {tmp_} to 0
+	while {_tmp_} is true:
+		set {_tmp_} to false
+		if {playerlist::%{tmp_}%} is set:
+			add {playerlist::%{tmp_}%} to tab completions for position 1
+			add 1 to {tmp_}
+			set {_tmp_} to true
+
+on inventory click:
+	if event-inventory = (metadata tag "reports" of player):
+		cancel event
+		if event-slot is 53:
+			set {punish::reports::hacking::%{report::tmp::%player's name%}%} to 0
+			set {punish::reports::bug::%{report::tmp::%player's name%}%} to 0
+			set {punish::reports::lagg::%{report::tmp::%player's name%}%} to 0
+			set {punish::reports::dupe::%{report::tmp::%player's name%}%} to 0
+			set {punish::reports::chat::%{report::tmp::%player's name%}%} to 0
+			set {punish::reports::advertise::%{report::tmp::%player's name%}%} to 0
+			close player's inventory
+			execute player command "/reports %{report::tmp::%player's name%}%"
+		else if event-slot is 8:
+			execute player command "/spec %{report::tmp::%player's name%}%"
