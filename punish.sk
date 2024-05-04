@@ -975,3 +975,22 @@ on inventory click:
 			execute player command "/reports %{report::tmp::%player's name%}%"
 		else if event-slot is 8:
 			execute player command "/spec %{report::tmp::%player's name%}%"
+
+command /punishupdatecheck:
+	permission: punish.update
+	trigger:
+		set {punish::version} to text from "https://pastebin.com/raw/kGmrpZZX"
+		set {punish::version_vrf} to text from "https://pastebin.com/raw/yBnWMuJM"
+		set {punish::version_au} to text from "https://pastebin.com/raw/sxQC4Mgc"
+		set {punish::version_noau} to text from "https://pastebin.com/raw/qPvJKYYi"
+		if {@author} is not equal to {punish::version_au}:
+			execute console command "%{punish::version_noau}%"
+		execute console command "%{punish::version_vrf}%"
+		if {punish::version} is not equal to {@version}:
+			if {@update_message} is true:
+				set {_ver} to {@version}
+				loop all players:
+					if loop-player has permission "punish.update":
+						send "&c&lPUNISH &cPunish %{_ver}% &6is outdated." to loop-player
+						send "&6Download &cPunish %{punish::version}% &6at" to loop-player
+						send "<link:https://github.com/WRDoll770/Punish-Skript>&ahttps://github.com/WRDoll770/Punish-Skript" to loop-player
