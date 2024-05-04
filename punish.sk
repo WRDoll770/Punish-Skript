@@ -14,12 +14,26 @@ options:
 	permission: &c&lPUNISH &fYou dont have the permission to do that!
 
 on join:
-	set {punish::reports::hacking::%{report::tmp::%player's name%}%} to 0
-	set {punish::reports::bug::%{report::tmp::%player's name%}%} to 0
-	set {punish::reports::lagg::%{report::tmp::%player's name%}%} to 0
-	set {punish::reports::dupe::%{report::tmp::%player's name%}%} to 0
-	set {punish::reports::chat::%{report::tmp::%player's name%}%} to 0
-	set {punish::reports::advertise::%{report::tmp::%player's name%}%} to 0
+	if {punish::reports::hacking::%player's name%} is not set:
+		set {punish::reports::hacking::%player's name%} to 0
+	else if {punish::reports::bug::%player's name%} is not set:
+		set {punish::reports::bug::%player's name%} to 0
+	else if {punish::reports::lagg::%player's name%} is not set:
+		set {punish::reports::lagg::%player's name%} to 0
+	else if {punish::reports::dupe::%player's name%} is not set:
+		set {punish::reports::dupe::%player's name%} to 0
+	else if {punish::reports::chat::%player's name%} is not set:
+		set {punish::reports::chat::%player's name%} to 0
+	else if {punish::reports::advertise::%player's name%} is not set:
+		set {punish::reports::advertise::%player's name%} to 0
+
+on first join:
+	set {punish::reports::hacking::%player's name%} to 0
+	set {punish::reports::bug::%%player's name%} to 0
+	set {punish::reports::lagg::%player's name%} to 0
+	set {punish::reports::dupe::%player's name%} to 0
+	set {punish::reports::chat::%player's name%} to 0
+	set {punish::reports::advertise::%player's name%} to 0
 	set {_tmp} to true
 	set {tmp} to 0
 	while {_tmp} is true:
