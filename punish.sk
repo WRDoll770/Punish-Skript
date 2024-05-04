@@ -29,7 +29,7 @@ on join:
 
 on first join:
 	set {punish::reports::hacking::%player's name%} to 0
-	set {punish::reports::bug::%%player's name%} to 0
+	set {punish::reports::bug::%player's name%} to 0
 	set {punish::reports::lagg::%player's name%} to 0
 	set {punish::reports::dupe::%player's name%} to 0
 	set {punish::reports::chat::%player's name%} to 0
