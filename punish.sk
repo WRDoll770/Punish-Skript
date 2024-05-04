@@ -1,6 +1,6 @@
 options:
 	update_message: true
-	version: 1.1
+	version: "1.2"
 	author: "WR_Doll770"
 	fill_1: gray stained glass pane named " "
 	fill_2: red stained glass pane named " "
@@ -104,6 +104,7 @@ command /punish [<offline player>] [<text>]:
 				set slot 7 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::1}
 				set slot 7 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::1}
 				set slot 7 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::1}
+
 			if {history::%arg-1's name%::2} is set:
 				set slot 8 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::2}
 				set slot 8 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::2}
@@ -112,6 +113,7 @@ command /punish [<offline player>] [<text>]:
 				set slot 8 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::2}
 				set slot 8 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::2}
 				set slot 8 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::2}
+
 			if {history::%arg-1's name%::3} is set:
 				set slot 16 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::3}
 				set slot 16 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::3}
@@ -120,6 +122,7 @@ command /punish [<offline player>] [<text>]:
 				set slot 16 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::3}
 				set slot 16 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::3}
 				set slot 16 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::3}
+
 			if {history::%arg-1's name%::4} is set:
 				set slot 17 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::4}
 				set slot 17 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::4}
@@ -128,6 +131,7 @@ command /punish [<offline player>] [<text>]:
 				set slot 17 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::4}
 				set slot 17 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::4}
 				set slot 17 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::4}
+
 			if {history::%arg-1's name%::5} is set:
 				set slot 25 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::5}
 				set slot 25 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::5}
@@ -136,6 +140,7 @@ command /punish [<offline player>] [<text>]:
 				set slot 25 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::5}
 				set slot 25 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::5}
 				set slot 25 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::5}
+
 			if {history::%arg-1's name%::6} is set:
 				set slot 26 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::6}
 				set slot 26 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::6}
@@ -144,6 +149,7 @@ command /punish [<offline player>] [<text>]:
 				set slot 26 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::6}
 				set slot 26 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::6}
 				set slot 26 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::6}
+
 			if {history::%arg-1's name%::7} is set:
 				set slot 34 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::7}
 				set slot 34 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::7}
@@ -152,6 +158,7 @@ command /punish [<offline player>] [<text>]:
 				set slot 34 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::7}
 				set slot 34 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::7}
 				set slot 34 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::7}
+
 			if {history::%arg-1's name%::8} is set:
 				set slot 35 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::8}
 				set slot 35 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::8}
@@ -160,6 +167,7 @@ command /punish [<offline player>] [<text>]:
 				set slot 35 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::8}
 				set slot 35 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::8}
 				set slot 35 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::8}
+
 			if {history::%arg-1's name%::9} is set:
 				set slot 43 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::9}
 				set slot 43 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::9}
@@ -168,6 +176,7 @@ command /punish [<offline player>] [<text>]:
 				set slot 43 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::9}
 				set slot 43 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::9}
 				set slot 43 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::9}
+
 			if {history::%arg-1's name%::10} is set:
 				set slot 44 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::10}
 				set slot 44 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::10}
@@ -176,6 +185,7 @@ command /punish [<offline player>] [<text>]:
 				set slot 44 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::10}
 				set slot 44 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::10}
 				set slot 44 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::10}
+
 			if {history::%arg-1's name%::11} is set:
 				set slot 52 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::11}
 				set slot 52 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::11}
@@ -184,6 +194,7 @@ command /punish [<offline player>] [<text>]:
 				set slot 52 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::11}
 				set slot 52 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::11}
 				set slot 52 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::11}
+
 			if {history::%arg-1's name%::12} is set:
 				set slot 53 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::12}
 				set slot 53 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::12}
@@ -192,6 +203,7 @@ command /punish [<offline player>] [<text>]:
 				set slot 53 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::12}
 				set slot 53 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::12}
 				set slot 53 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::12}
+
 			if arg-2 is set:
 				if arg-2 is "Hacking":
 					open (metadata tag "punish_menu_hack" of player) to player
@@ -463,6 +475,24 @@ function historyset(p: player, t: text, ta: text):
 			set {history::%{_p}'s name%::1} to {@chat} and {_ta}
 		else if {_t} is "advertise":
 			set {history::%{_p}'s name%::1} to {@advertise} and {_ta}
+
+command /punishupdatecheck:
+	permission: punish.update
+	trigger:
+		set {punish::version} to text from "https://pastebin.com/raw/kGmrpZZX"
+		set {punish::version_vrf} to text from "https://pastebin.com/raw/yBnWMuJM"
+		set {punish::version_au} to text from "https://pastebin.com/raw/sxQC4Mgc"
+		set {punish::version_noau} to text from "https://pastebin.com/raw/qPvJKYYi"
+		if {@author} is not equal to {punish::version_au}:
+			execute console command "%{punish::version_noau}%"
+		execute console command "%{punish::version_vrf}%"
+		set {_ver} to {@version}
+		if {punish::version} is not equal to {@version}:
+			send "&c&lPUNISH &cPunish %{_ver}% &6is outdated!"
+			send "&6Download &cPunish %{punish::version}% &6at:"
+			send "<link:https://github.com/WRDoll770/Punish-Skript>&ahttps://github.com/WRDoll770/Punish-Skript"
+		else:
+			send "&c&lPUNISH &6Punish %{_ver}% &ais up to date!"
 
 function punishban(p: player, t: text, ta: text):
 	send "&c&LPUNISH &fThe player %{_p}% &fgot banned %{_ta}% &ffor %{_t}%." to all players
@@ -975,22 +1005,3 @@ on inventory click:
 			execute player command "/reports %{report::tmp::%player's name%}%"
 		else if event-slot is 8:
 			execute player command "/spec %{report::tmp::%player's name%}%"
-
-command /punishupdatecheck:
-	permission: punish.update
-	trigger:
-		set {punish::version} to text from "https://pastebin.com/raw/kGmrpZZX"
-		set {punish::version_vrf} to text from "https://pastebin.com/raw/yBnWMuJM"
-		set {punish::version_au} to text from "https://pastebin.com/raw/sxQC4Mgc"
-		set {punish::version_noau} to text from "https://pastebin.com/raw/qPvJKYYi"
-		if {@author} is not equal to {punish::version_au}:
-			execute console command "%{punish::version_noau}%"
-		execute console command "%{punish::version_vrf}%"
-		if {punish::version} is not equal to {@version}:
-			if {@update_message} is true:
-				set {_ver} to {@version}
-				loop all players:
-					if loop-player has permission "punish.update":
-						send "&c&lPUNISH &cPunish %{_ver}% &6is outdated." to loop-player
-						send "&6Download &cPunish %{punish::version}% &6at" to loop-player
-						send "<link:https://github.com/WRDoll770/Punish-Skript>&ahttps://github.com/WRDoll770/Punish-Skript" to loop-player
