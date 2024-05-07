@@ -979,7 +979,7 @@ command /reports [<offline player>]:
 		if arg-1 is not set:
 			set {tmp::%player's name%} to true
 			set {_tmp::%player's name%} to 0
-			while {tmp::%player's name% is true:
+			while {tmp::%player's name%} is true:
 				set {tmp::%player's name%} to false
 				if {playerlist::%{_tmp::%player's name%}%} is set:
 					set {tmp::%player's name%} to true
