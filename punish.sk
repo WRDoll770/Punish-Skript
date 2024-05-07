@@ -977,7 +977,16 @@ command /reports [<offline player>]:
 	permission: punish.reports
 	trigger:
 		if arg-1 is not set:
-			send "&c&lREPORTS &fCorrect Usage: &6/reports &f<player>"
+			set {tmp::%player's name%} to true
+			set {_tmp::%player's name%} to 0
+			while {tmp::%player's name% is true:
+				set {tmp::%player's name%} to false
+				if {playerlist::%{_tmp::%player's name%}%} is set:
+					set {tmp::%player's name%} to true
+					set {punish::report::tmp} to {punish::reports::hacking::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::bug::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::lagg::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::dupe::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::chat::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::advertise::%{playerlist::%{_tmp::%player's name%}%}%}
+					send "&6%{playerlist::%{_tmp::%player's name%}%}%: %{punish::report::tmp}% Reports"
+					add 1 to {_tmp::%player's name%}
+			#send "&c&lREPORTS &fCorrect Usage: &6/reports &f<player>"
 		else:
 			set {report::tmp::%player's name%} to arg-1
 			set {punish::report::tmp} to {punish::reports::hacking::%arg-1's name%} + {punish::reports::bug::%arg-1's name%} + {punish::reports::lagg::%arg-1's name%} + {punish::reports::dupe::%arg-1's name%} + {punish::reports::chat::%arg-1's name%} + {punish::reports::advertise::%arg-1's name%}
