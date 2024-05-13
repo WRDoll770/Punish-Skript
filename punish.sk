@@ -1,0 +1,1129 @@
+options:
+	terms_of_service: true # https://wrdoll.wordpress.com/skripts/terms-of-service/
+	update_message: true
+	fill_1: gray stained glass pane named " "
+	fill_2: red stained glass pane named " "
+	fill_3: black stained glass pane named " "
+	hack: iron sword named "&c&lHacking" with lore "&fUsing-Hacks or joining with a hack-client."
+	bug: command block named "&c&lBug-/Glitch Using" with lore "&fUsing/Abusing glitches."
+	lagg: piston named "&4&lLagg-Machines" with lore "&fBuilding or Using them."
+	dupe: 64 diamond blocks named "&4&lDuping" with lore "&fDuping to get money or items."
+	chat: book and quill named "&c&lChat Offense" with lore "&fAny sort of insult ect."
+	advertise: goat horn named "&c&lAdvertising" with lore "&fAdvertising the own/other Servers/Channels ect."
+	permission: &c&lPUNISH &fYou dont have the permission to do that!
+	version: "1.5" # DO NOT CHANGE
+	author: "WR_Doll770" # DO NOT CHANGE
+
+on join:
+	if {punish::reports::hacking::%player's name%} is not set:
+		set {punish::reports::hacking::%player's name%} to 0
+	else if {punish::reports::bug::%player's name%} is not set:
+		set {punish::reports::bug::%player's name%} to 0
+	else if {punish::reports::lagg::%player's name%} is not set:
+		set {punish::reports::lagg::%player's name%} to 0
+	else if {punish::reports::dupe::%player's name%} is not set:
+		set {punish::reports::dupe::%player's name%} to 0
+	else if {punish::reports::chat::%player's name%} is not set:
+		set {punish::reports::chat::%player's name%} to 0
+	else if {punish::reports::advertise::%player's name%} is not set:
+		set {punish::reports::advertise::%player's name%} to 0
+	set {_tmp} to true
+	set {tmp} to 0
+	while {_tmp} is true:
+		set {_tmp} to false
+		if {playerlist::%{tmp}%} is set:
+			set {_tmp} to true
+			if {playerlist::%{tmp}%} is player's name:
+				set {_tmp} to false
+			add 1 to {tmp}
+		else:
+			set {playerlist::%{tmp}%} to player's name
+
+on first join:
+	set {punish::reports::hacking::%player's name%} to 0
+	set {punish::reports::bug::%player's name%} to 0
+	set {punish::reports::lagg::%player's name%} to 0
+	set {punish::reports::dupe::%player's name%} to 0
+	set {punish::reports::chat::%player's name%} to 0
+	set {punish::reports::advertise::%player's name%} to 0
+	set {_tmp} to true
+	set {tmp} to 0
+	while {_tmp} is true:
+		set {_tmp} to false
+		if {playerlist::%{tmp}%} is set:
+			set {_tmp} to true
+			add 1 to {tmp}
+		else:
+			set {playerlist::%{tmp}%} to player's name
+
+
+command /punish [<offline player>] [<text>]:
+	permission: punish.menu
+	permission message: &c&lPUNISH &c%{@version}% &4You dont have permission to use &c/punish&f.
+	trigger:
+		if {@terms_of_service} is true:
+			set {punish::tmp::%player's name%} to arg-1's name
+			if arg-1 is not set:
+				send "&c&lPUNISH&f Correct Usage: &6/punish &f<player> <reason>"
+			else:
+				if {PreBans::%arg-1's name%} is not set:
+					set {PreBans::%arg-1's name%} to 0
+				if {PreMutes::%arg-1's name%} is not set:
+					set {PreMutes::%arg-1's name%} to 0
+				set metadata tag "punish_menu_1" of player to chest inventory with 6 rows named "&4Punish Menu"
+				set slot 4 of metadata tag "punish_menu_1" of player to (skull of "%arg-1%" parsed as offline player) named "&6Punishing: %arg-1%" with lore "&fPrevious Mutes: &e%{PreMutes::%arg-1's name%}%" and "&fPrevious Bans: &e%{PreBans::%arg-1's name%}%"
+				set slot 0 and 1 and 2 and 3 and 5 and 6 of metadata tag "punish_menu_1" of player to {@fill_2}
+				set slot 7 and 8 and 16 and 17 and 25 and 26 and 34 and 35 and 43 and 44 and 52 and 53 of metadata tag "punish_menu_1" of player to {@fill_3}
+				set slot 9 and 10 and 11 and 12 and 13 and 14 and 15 and 18 and 20 and 22 and 24 and 27 and 28 and 29 and 30 and 31 and 32 and 33 and 36 and 38 and 40 and 42 and 45 and 46 and 47 and 48 and 49 and 50 of metadata tag "punish_menu_1" of player to {@fill_1}
+				set slot 51 of metadata tag "punish_menu_1" of player to white stained glass pane named "&f&lClear" with lore "&fClear player's punish log"
+				set slot 19 of metadata tag "punish_menu_1" of player to {@hack}
+				set slot 21 of metadata tag "punish_menu_1" of player to {@bug}
+				set slot 23 of metadata tag "punish_menu_1" of player to {@lagg}
+				set slot 37 of metadata tag "punish_menu_1" of player to {@dupe}
+				set slot 39 of metadata tag "punish_menu_1" of player to {@chat}
+				set slot 41 of metadata tag "punish_menu_1" of player to {@advertise}
+
+				set metadata tag "punish_menu_hack" of player to chest inventory with 6 rows named "&c&lHacking"
+				set slot 4 of metadata tag "punish_menu_hack" of player to (skull of "%arg-1%" parsed as offline player) named "&6Punishing: %arg-1%" with lore "&fPrevious Mutes: &e%{PreMutes::%arg-1's name%}%" and "&fPrevious Bans: &e%{PreBans::%arg-1's name%}%"
+				set slot 0 and 1 and 2 and 3 and 5 and 6 of metadata tag "punish_menu_hack" of player to {@fill_2}
+				set slot 7 and 8 and 16 and 17 and 25 and 26 and 34 and 35 and 43 and 44 and 52 and 53 of metadata tag "punish_menu_hack" of player to {@fill_3}
+				set slot 9 and 11 and 13 and 15 and 18 and 20 and 22 and 24 and 27 and 29 and 31 and 32 and 33 and 36 and 38 and 39 and 40 and 41 and 42 and 46 and 47 and 48 and 49 and 50 and 51 of metadata tag "punish_menu_hack" of player to {@fill_1}
+				set slot 45 of metadata tag "punish_menu_hack" of player to nether star named "&4&lBack"
+
+				set metadata tag "punish_menu_bug" of player to chest inventory with 6 rows named "&c&lBug-/Glitch Using"
+				set slot 4 of metadata tag "punish_menu_bug" of player to (skull of "%arg-1%" parsed as offline player) named "&6Punishing: %arg-1%" with lore "&fPrevious Mutes: &e%{PreMutes::%arg-1's name%}%" and "&fPrevious Bans: &e%{PreBans::%arg-1's name%}%"
+				set slot 0 and 1 and 2 and 3 and 5 and 6 of metadata tag "punish_menu_bug" of player to {@fill_2}
+				set slot 7 and 8 and 16 and 17 and 25 and 26 and 34 and 35 and 43 and 44 and 52 and 53 of metadata tag "punish_menu_bug" of player to {@fill_3}
+				set slot 9 and 11 and 13 and 15 and 18 and 20 and 22 and 24 and 27 and 29 and 31 and 32 and 33 and 36 and 38 and 39 and 40 and 41 and 42 and 46 and 47 and 48 and 49 and 50 and 51 of metadata tag "punish_menu_bug" of player to {@fill_1}
+				set slot 45 of metadata tag "punish_menu_bug" of player to nether star named "&4&lBack"
+
+				set metadata tag "punish_menu_lagg" of player to chest inventory with 6 rows named "&4&lLagg-Machines"
+				set slot 4 of metadata tag "punish_menu_lagg" of player to (skull of "%arg-1%" parsed as offline player) named "&6Punishing: %arg-1%" with lore "&fPrevious Mutes: &e%{PreMutes::%arg-1's name%}%" and "&fPrevious Bans: &e%{PreBans::%arg-1's name%}%"
+				set slot 0 and 1 and 2 and 3 and 5 and 6 of metadata tag "punish_menu_lagg" of player to {@fill_2}
+				set slot 7 and 8 and 16 and 17 and 25 and 26 and 34 and 35 and 43 and 44 and 52 and 53 of metadata tag "punish_menu_lagg" of player to {@fill_3}
+				set slot 9 and 11 and 13 and 15 and 18 and 20 and 22 and 24 and 27 and 29 and 31 and 32 and 33 and 36 and 38 and 39 and 40 and 41 and 42 and 46 and 47 and 48 and 49 and 50 and 51 of metadata tag "punish_menu_lagg" of player to {@fill_1}
+				set slot 45 of metadata tag "punish_menu_lagg" of player to nether star named "&4&lBack"
+
+				set metadata tag "punish_menu_dupe" of player to chest inventory with 6 rows named "&4&lDuping"
+				set slot 4 of metadata tag "punish_menu_dupe" of player to (skull of "%arg-1%" parsed as offline player) named "&6Punishing: %arg-1%" with lore "&fPrevious Mutes: &e%{PreMutes::%arg-1's name%}%" and "&fPrevious Bans: &e%{PreBans::%arg-1's name%}%"
+				set slot 0 and 1 and 2 and 3 and 5 and 6 of metadata tag "punish_menu_dupe" of player to {@fill_2}
+				set slot 7 and 8 and 16 and 17 and 25 and 26 and 34 and 35 and 43 and 44 and 52 and 53 of metadata tag "punish_menu_dupe" of player to {@fill_3}
+				set slot 9 and 11 and 13 and 15 and 18 and 20 and 22 and 23 and 24 and 27 and 29 and 30 and 31 and 32 and 33 and 36 and 37 and 38 and 39 and 40 and 41 and 42 and 46 and 47 and 48 and 49 and 50 and 51 of metadata tag "punish_menu_dupe" of player to {@fill_1}
+				set slot 45 of metadata tag "punish_menu_dupe" of player to nether star named "&4&lBack"
+
+				set metadata tag "punish_menu_chat" of player to chest inventory with 6 rows named "&c&lChat Offense"
+				set slot 4 of metadata tag "punish_menu_chat" of player to (skull of "%arg-1%" parsed as offline player) named "&6Punishing: %arg-1%" with lore "&fPrevious Mutes: &e%{PreMutes::%arg-1's name%}%" and "&fPrevious Bans: &e%{PreBans::%arg-1's name%}%"
+				set slot 0 and 1 and 2 and 3 and 5 and 6 of metadata tag "punish_menu_chat" of player to {@fill_2}
+				set slot 7 and 8 and 16 and 17 and 25 and 26 and 34 and 35 and 43 and 44 and 52 and 53 of metadata tag "punish_menu_chat" of player to {@fill_3}
+				set slot 10 and 12 and 14 and 19 and 21 and 23 and 27 and 28 and 30 and 32 and 33 and 36 and 37 and 39 and 40 and 41 and 42 and 46 and 47 and 48 and 49 and 50 of metadata tag "punish_menu_chat" of player to {@fill_1}
+				set slot 45 of metadata tag "punish_menu_chat" of player to nether star named "&4&lBack"
+
+				set metadata tag "punish_menu_advertise" of player to chest inventory with 6 rows named "&c&lAdvertising"
+				set slot 4 of metadata tag "punish_menu_advertise" of player to (skull of "%arg-1%" parsed as offline player) named "&6Punishing: %arg-1%" with lore "&fPrevious Mutes: &e%{PreMutes::%arg-1's name%}%" and "&fPrevious Bans: &e%{PreBans::%arg-1's name%}%"
+				set slot 0 and 1 and 2 and 3 and 5 and 6 of metadata tag "punish_menu_advertise" of player to {@fill_2}
+				set slot 7 and 8 and 16 and 17 and 25 and 26 and 34 and 35 and 43 and 44 and 52 and 53 of metadata tag "punish_menu_advertise" of player to {@fill_3}
+				set slot 9 and 10 and 11 and 12 and 13 and 14 and 15 and 18 and 19 and 20 and 21 and 22 and 23 and 24 and 27 and 29 and 31 and 33 and 36 and 37 and 38 and 39 and 40 and 41 and 42 and 46 and 47 and 48 and 49 and 50 and 51 of metadata tag "punish_menu_advertise" of player to {@fill_1}
+				set slot 45 of metadata tag "punish_menu_advertise" of player to nether star named "&4&lBack"
+
+				if {history::%arg-1's name%::1} is set:
+					set slot 7 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::1}
+					set slot 7 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::1}
+					set slot 7 of metadata tag "punish_menu_bug" of player to {history::%arg-1's name%::1}
+					set slot 7 of metadata tag "punish_menu_lagg" of player to {history::%arg-1's name%::1}
+					set slot 7 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::1}
+					set slot 7 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::1}
+					set slot 7 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::1}
+
+				if {history::%arg-1's name%::2} is set:
+					set slot 8 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::2}
+					set slot 8 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::2}
+					set slot 8 of metadata tag "punish_menu_bug" of player to {history::%arg-1's name%::2}
+					set slot 8 of metadata tag "punish_menu_lagg" of player to {history::%arg-1's name%::2}
+					set slot 8 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::2}
+					set slot 8 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::2}
+					set slot 8 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::2}
+
+				if {history::%arg-1's name%::3} is set:
+					set slot 16 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::3}
+					set slot 16 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::3}
+					set slot 16 of metadata tag "punish_menu_bug" of player to {history::%arg-1's name%::3}
+					set slot 16 of metadata tag "punish_menu_lagg" of player to {history::%arg-1's name%::3}
+					set slot 16 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::3}
+					set slot 16 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::3}
+					set slot 16 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::3}
+
+				if {history::%arg-1's name%::4} is set:
+					set slot 17 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::4}
+					set slot 17 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::4}
+					set slot 17 of metadata tag "punish_menu_bug" of player to {history::%arg-1's name%::4}
+					set slot 17 of metadata tag "punish_menu_lagg" of player to {history::%arg-1's name%::4}
+					set slot 17 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::4}
+					set slot 17 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::4}
+					set slot 17 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::4}
+
+				if {history::%arg-1's name%::5} is set:
+					set slot 25 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::5}
+					set slot 25 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::5}
+					set slot 25 of metadata tag "punish_menu_bug" of player to {history::%arg-1's name%::5}
+					set slot 25 of metadata tag "punish_menu_lagg" of player to {history::%arg-1's name%::5}
+					set slot 25 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::5}
+					set slot 25 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::5}
+					set slot 25 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::5}
+
+				if {history::%arg-1's name%::6} is set:
+					set slot 26 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::6}
+					set slot 26 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::6}
+					set slot 26 of metadata tag "punish_menu_bug" of player to {history::%arg-1's name%::6}
+					set slot 26 of metadata tag "punish_menu_lagg" of player to {history::%arg-1's name%::6}
+					set slot 26 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::6}
+					set slot 26 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::6}
+					set slot 26 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::6}
+
+				if {history::%arg-1's name%::7} is set:
+					set slot 34 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::7}
+					set slot 34 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::7}
+					set slot 34 of metadata tag "punish_menu_bug" of player to {history::%arg-1's name%::7}
+					set slot 34 of metadata tag "punish_menu_lagg" of player to {history::%arg-1's name%::7}
+					set slot 34 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::7}
+					set slot 34 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::7}
+					set slot 34 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::7}
+
+				if {history::%arg-1's name%::8} is set:
+					set slot 35 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::8}
+					set slot 35 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::8}
+					set slot 35 of metadata tag "punish_menu_bug" of player to {history::%arg-1's name%::8}
+					set slot 35 of metadata tag "punish_menu_lagg" of player to {history::%arg-1's name%::8}
+					set slot 35 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::8}
+					set slot 35 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::8}
+					set slot 35 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::8}
+
+				if {history::%arg-1's name%::9} is set:
+					set slot 43 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::9}
+					set slot 43 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::9}
+					set slot 43 of metadata tag "punish_menu_bug" of player to {history::%arg-1's name%::9}
+					set slot 43 of metadata tag "punish_menu_lagg" of player to {history::%arg-1's name%::9}
+					set slot 43 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::9}
+					set slot 43 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::9}
+					set slot 43 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::9}
+
+				if {history::%arg-1's name%::10} is set:
+					set slot 44 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::10}
+					set slot 44 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::10}
+					set slot 44 of metadata tag "punish_menu_bug" of player to {history::%arg-1's name%::10}
+					set slot 44 of metadata tag "punish_menu_lagg" of player to {history::%arg-1's name%::10}
+					set slot 44 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::10}
+					set slot 44 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::10}
+					set slot 44 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::10}
+
+				if {history::%arg-1's name%::11} is set:
+					set slot 52 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::11}
+					set slot 52 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::11}
+					set slot 52 of metadata tag "punish_menu_bug" of player to {history::%arg-1's name%::11}
+					set slot 52 of metadata tag "punish_menu_lagg" of player to {history::%arg-1's name%::11}
+					set slot 52 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::11}
+					set slot 52 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::11}
+					set slot 52 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::11}
+
+				if {history::%arg-1's name%::12} is set:
+					set slot 53 of metadata tag "punish_menu_1" of player to {history::%arg-1's name%::12}
+					set slot 53 of metadata tag "punish_menu_hack" of player to {history::%arg-1's name%::12}
+					set slot 53 of metadata tag "punish_menu_bug" of player to {history::%arg-1's name%::12}
+					set slot 53 of metadata tag "punish_menu_lagg" of player to {history::%arg-1's name%::12}
+					set slot 53 of metadata tag "punish_menu_dupe" of player to {history::%arg-1's name%::12}
+					set slot 53 of metadata tag "punish_menu_chat" of player to {history::%arg-1's name%::12}
+					set slot 53 of metadata tag "punish_menu_advertise" of player to {history::%arg-1's name%::12}
+
+				if arg-2 is set:
+					if arg-2 is "Hacking":
+						open (metadata tag "punish_menu_hack" of player) to player
+					else if arg-2 is "Bug-/Glitch Using":
+						open (metadata tag "punish_menu_bug" of player) to player
+					else if arg-2 is "Lagg Machine":
+						open (metadata tag "punish_menu_lagg" of player) to player
+					else if arg-2 is "Duping":
+						open (metadata tag "punish_menu_dupe" of player) to player
+					else if arg-2 is "Swearing":
+						open (metadata tag "punish_menu_chat" of player) to player
+					else if arg-2 is "Advertise":
+						open (metadata tag "punish_menu_advertise" of player) to player
+					else:
+						open (metadata tag "punish_menu_1" of player) to player
+				else:
+					open (metadata tag "punish_menu_1" of player) to player
+
+				set slot 10 of metadata tag "punish_menu_hack" of player to lime dye named "&a&lSlight Hacks" with lore "&fSuch as AntiAfk, FreeCam" and "&c1 Day Ban"
+				set slot 12 of metadata tag "punish_menu_hack" of player to yellow dye named "&6&lMiddle Hacks" with lore "&fSuch as X-Ray, Search" and "&c7 Days Ban"
+				set slot 14 of metadata tag "punish_menu_hack" of player to orange dye named "&4&lHard Hacks" with lore "&fSuch as Kill-Aura, Fight-Bot" and "&c30 Days Ban"
+				set slot 19 of metadata tag "punish_menu_hack" of player to yellow dye named "&a&lSlight Hacks" with lore "&fSuch as AntiAfk, FreeCam" and "&fSecond time doing." and "&c7 Days Ban"
+				set slot 21 of metadata tag "punish_menu_hack" of player to orange dye named "&6&lMiddle Hacks" with lore "&fSuch as X-Ray, Search" and "&fSecond time doing." and "&c30 Days Ban"
+				set slot 23 of metadata tag "punish_menu_hack" of player to red dye named "&4&lHard Hacks" with lore "&fSuch as Kill-Aura, Fight-Bot" and "&fSecond time doing." and "&4Perma-Ban"
+				set slot 28 of metadata tag "punish_menu_hack" of player to orange dye named "&a&lSlight Hacks" with lore "&fSuch as AntiAfk, FreeCam" and "&fThird time doing." and "&c30 Days Ban"
+				set slot 30 of metadata tag "punish_menu_hack" of player to red dye named "&6&lMiddle Hacks" with lore "&fSuch as X-Ray, Search" and "&fThird time doing." and "&4Perma-Ban"
+				set slot 37 of metadata tag "punish_menu_hack" of player to red dye named "&a&lSlight Hacks" with lore "&fSuch as AntiAfk, FreeCam" and "&fFourth time doing." and "&4Perma-Ban"
+
+				set slot 10 of metadata tag "punish_menu_bug" of player to lime dye named "&a&lSlight Bugs" with lore "&fOnly affecting the player" and "&c1 Day Ban"
+				set slot 12 of metadata tag "punish_menu_bug" of player to yellow dye named "&6&lMiddle Bugs" with lore "&fOnly affecting others or the server" and "&c7 Days Ban"
+				set slot 14 of metadata tag "punish_menu_bug" of player to orange dye named "&4&lHard Bugs" with lore "&fAffecting Others and the server (and the player)" and "&c30 Days Ban"
+				set slot 19 of metadata tag "punish_menu_bug" of player to yellow dye named "&a&lSlight Bugs" with lore "&fOnly affecting the player" and "&fSecond time doing." and "&c7 Days Ban"
+				set slot 21 of metadata tag "punish_menu_bug" of player to orange dye named "&6&lMiddle Bugs" with lore "&fOnly affecting others or the server" and "&fSecond time doing." and "&c30 Days Ban"
+				set slot 23 of metadata tag "punish_menu_bug" of player to red dye named "&4&lHard Bugs" with lore "&fAffecting Others and the server (and the player)" and "&fSecond time doing." and "&4Perma-Ban"
+				set slot 28 of metadata tag "punish_menu_bug" of player to orange dye named "&a&lSlight Bugs" with lore "&fOnly affecting the player" and "&fThird time doing." and "&c30 Days Ban"
+				set slot 30 of metadata tag "punish_menu_bug" of player to red dye named "&6&lMiddle Bugs" with lore "&fOnly affecting others or the server" and "&fThird time doing." and "&4Perma-Ban"
+				set slot 37 of metadata tag "punish_menu_bug" of player to red dye named "&a&lSlight Bugs" with lore "&fOnly affecting the player" and "&fFourth time doing." and "&4Perma-Ban"
+
+				set slot 10 of metadata tag "punish_menu_lagg" of player to lime dye named "&a&lSmall Machine" with lore "&fSlight laggs" and "&c1 Day Ban"
+				set slot 12 of metadata tag "punish_menu_lagg" of player to yellow dye named "&6&lBig Machine" with lore "&fMedium/Big laggs/Crash" and "&c7 Days Ban"
+				set slot 14 of metadata tag "punish_menu_lagg" of player to orange dye named "&4&lSeveral Machines" with lore "&fBig laggs/Crash" and "&c30 Days Ban"
+				set slot 19 of metadata tag "punish_menu_lagg" of player to yellow dye named "&a&lSmall Machine" with lore "&fSlight laggs" and "&fSecond time doing." and "&c7 Days Ban"
+				set slot 21 of metadata tag "punish_menu_lagg" of player to orange dye named "&6&lBig Machine" with lore "&fMedium/Big laggs/Crash" and "&fSecond time doing." and "&c30 Days Ban"
+				set slot 23 of metadata tag "punish_menu_lagg" of player to red dye named "&4&lSeveral Machines" with lore "&fBig laggs/Crash" and "&fSecond time doing." and "&4Perma-Ban"
+				set slot 28 of metadata tag "punish_menu_lagg" of player to orange dye named "&a&lSmall Machine" with lore "&fSlight laggs" and "&fThird time doing." and "&c30 Days Ban"
+				set slot 30 of metadata tag "punish_menu_lagg" of player to red dye named "&6&lBig Machine" with lore "&fMedium/Big laggs/Crash" and "&fThird time doing." and "&4Perma-Ban"
+				set slot 37 of metadata tag "punish_menu_lagg" of player to red dye named "&a&lSmall Machine" with lore "&fSlight laggs" and "&fFourth time doing." and "&4Perma-Ban"
+
+				set slot 10 of metadata tag "punish_menu_dupe" of player to yellow dye named "&a&lSmall Damage" with lore "&fOnly affected the player" and "&c7 Days Ban"
+				set slot 12 of metadata tag "punish_menu_dupe" of player to orange dye named "&6&lMedium Damage" with lore "&fOnly affected some players" and "&c30 Days Ban"
+				set slot 14 of metadata tag "punish_menu_dupe" of player to red dye named "&4&lBig Damage" with lore "&fAffected nearly all players or very much money" and "&4Perma-Ban"
+				set slot 19 of metadata tag "punish_menu_dupe" of player to orange dye named "&a&lSmall Damage" with lore "&fOnly affected the player" and "&fSecond time doing." and "&c30 Days Ban"
+				set slot 21 of metadata tag "punish_menu_dupe" of player to red dye named "&6&lMedium Damage" with lore "&fOnly affected some players" and "&fSecond time doing." and "&4Perma-Ban"
+				set slot 28 of metadata tag "punish_menu_dupe" of player to red dye named "&a&lSmall Damage" with lore "&fOnly affected the player" and "&fThird time doing." and "&4Perma-Ban"
+
+				set slot 9 of metadata tag "punish_menu_chat" of player to white dye named "&a&lCaps on Purpose" with lore "&fOnly if they are written repeatedly" and "&2Warn before mute." and "&c10 Mins Mute"
+				set slot 18 of metadata tag "punish_menu_chat" of player to gray dye named "&a&lSwearing (not at someone)" with lore "&fIf its not sworn at someone." and "&2Warn before mute." and "&c30 Mins Mute"
+				set slot 11 of metadata tag "punish_menu_chat" of player to lime dye named "&a&lSmall Offense" with lore "&fSlightly sworn/spammed" and "&c1 Hour Mute"
+				set slot 13 of metadata tag "punish_menu_chat" of player to yellow dye named "&6&lMedium Offense" with lore "&fMedium sworn/often spammed/links" and "&fEven after one or more warns" and "&c1 Day Mute"
+				set slot 15 of metadata tag "punish_menu_chat" of player to orange dye named "&4&lBig Offense" with lore "&fMuch spammed/links sent/sworn (at staff)" and "&fEven after one or more warns" and "&c7 Days Mute"
+				set slot 20 of metadata tag "punish_menu_chat" of player to yellow dye named "&a&lSmall Offense" with lore "&fSlightly sworn/spammed" and "&fSecond time doing." and "&c1 Day Mute"
+				set slot 22 of metadata tag "punish_menu_chat" of player to orange dye named "&6&lMedium Offense" with lore "&fMedium sworn/often spammed" and "&fEven after one or more warns" and "&fSecond time doing." and "&c7 Days Mute"
+				set slot 24 of metadata tag "punish_menu_chat" of player to red dye named "&4&lBig Offense" with lore "&fMuch spammed/links sent/sworn (at staff)" and "&fEven after one or more warns" and "&fSecond time doing." and "&c30 Days Mute"
+				set slot 29 of metadata tag "punish_menu_chat" of player to orange dye named "&a&lSmall Offense" with lore "&fSlightly sworn/spammed" and "&fThird time doing." and "&c7 Days Mute"
+				set slot 31 of metadata tag "punish_menu_chat" of player to red dye named "&6&lMedium Offense" with lore "&fMedium sworn/often spammed" and "&fEven after one or more warns" and "&fThird time doing." and "&c30 Days Mute"
+				set slot 38 of metadata tag "punish_menu_chat" of player to red dye named "&a&lSmall Offense" with lore "&fSlightly sworn/spammed" and "&fFourth time doing." and "&c30 Days Mute"
+				set slot 51 of metadata tag "punish_menu_chat" of player to black dye named "&4&LPerma Mute" with lore "&fOnly for the ones that dont stop even after 30d mute." and "&4Perma-Mute"
+
+				set slot 28 of metadata tag "punish_menu_advertise" of player to lime dye named "&a&lOnce Advertised" with lore "&fFirst time doing." and "&c7 Days Mute"
+				set slot 30 of metadata tag "punish_menu_advertise" of player to orange dye named "&6&lActive Advertising" with lore "&fSecond time doing. (Active)" and "&c30 Days Mute"
+				set slot 32 of metadata tag "punish_menu_advertise" of player to red dye named "&4&LPerma Mute" with lore "&fOnly for the ones that dont stop even after 30d mute." and "&4Perma-Mute"
+
+		else:
+			send "&c&lPUNISH &fYoull need to set the terms_of_service to true (line: 2) after reading the Terms of Service to use the Skript."
+
+command /punishupdatecheck:
+	permission: punish.update
+	permission message: &c&lPUNISH &c%{@version}% &4You dont have permission to use &c/punishupdatecheck&f.
+	trigger:
+		if {@terms_of_service} is true:
+			set {punish::version} to text from "https://pastebin.com/raw/kGmrpZZX"
+			set {punish::version_vrf} to text from "https://pastebin.com/raw/yBnWMuJM"
+			set {punish::version_au} to text from "https://pastebin.com/raw/sxQC4Mgc"
+			set {punish::version_noau} to text from "https://pastebin.com/raw/qPvJKYYi"
+			if {@author} is not equal to {punish::version_au}:
+				execute console command "%{punish::version_noau}%"
+			execute console command "%{punish::version_vrf}%"
+			set {_ver} to {@version}
+			if {punish::version} is not equal to {@version}:
+				send "&c&lPUNISH &cPunish %{_ver}% &6is outdated!"
+				send "&6Download &cPunish %{punish::version}% &6at:"
+				send "<link:https://github.com/WRDoll770/Punish-Skript>&ahttps://github.com/WRDoll770/Punish-Skript"
+			else:
+				send "&c&lPUNISH &cPunish %{_ver}% &ais up to date!"
+		else:
+			send "&c&lPUNISH &fYoull need to set the terms_of_service to true (line: 2) after reading the Terms of Service to use the Skript."
+
+command /spec [<player>]:
+	permission: punish.spectate
+	permission message: &c&lPUNISH &c%{@version}% &4You dont have permission to use &c/spec&f.
+	trigger:
+		if {@terms_of_service} is true:
+			if {punish::spectate::%player's name%} is false:
+				if arg-1 is set:
+					send "&c&lPUNISH &fYou are now spectating %arg-1%"
+					send "&c&lPUNISH &fdo /spec to leave spectator mode!"
+					set {punish::spectate::%player's name%} to true
+					set {punish::location::%player's name%} to player's location
+					hide player from all players
+					set {punish::gamemode::%player's name%} to player's gamemode
+					execute console command "gamemode creative %player's name%"
+					teleport player to arg-1
+				else:
+					send "&c&lPUNISH &fCorrect Usage: &6/spec &f<player>"
+			else:
+				send "&c&lPUNISH &fYou are no longer spectating."
+				set {punish::spectate::%player's name%} to false
+				teleport player to {punish::location::%player's name%}
+				reveal the player from all players
+				execute console command "gamemode %{punish::gamemode::%player's name%}% %player's name%"
+		else:
+			send "&c&lPUNISH &fYoull need to set the terms_of_service to true (line: 2) after reading the Terms of Service to use the Skript."
+
+command /report [<offline player>] [<text>]:
+	trigger:
+		if {@terms_of_service} is true:
+			if arg-1 is not set:
+				send "&c&lREPORT &fCorrect Usage: &6/report&f <player> <reason>"
+			else:
+				set {report::tmp::%player's name%} to arg-1
+				if arg-2 is not set:
+					set metadata tag "report" of player to chest inventory with 3 rows named "&c&lReporting %arg-1%"
+					set slot 13 of metadata tag "report" of player to (skull of "%arg-1%" parsed as offline player) named "&6Reporting: %arg-1%"
+					set slot 10 of metadata tag "report" of player to {@hack}
+					set slot 11 of metadata tag "report" of player to {@bug}
+					set slot 12 of metadata tag "report" of player to {@lagg}
+					set slot 14 of metadata tag "report" of player to {@dupe}
+					set slot 15 of metadata tag "report" of player to {@chat}
+					set slot 16 of metadata tag "report" of player to {@advertise}
+					set slot 0 and 1 and 2 and 3 and 4 and 5 and 6 and 7 and 8 and 9 and 17 and 18 and 19 and 20 and 21 and 22 and 23 and 24 and 25 and 26 of metadata tag "report" of player to {@fill_1}
+					open (metadata tag "report" of player) to player
+				else:
+					log "%player's name% reported %{report::tmp::%player's name%}% for %arg-2%" to "reports"
+					log "%player's name% reported %{report::tmp::%player's name%}% for %arg-2%" to "reports-%{report::tmp::%player's name%}%"
+					if arg-2 is "Hacking":
+						add 1 to {punish::reports::hacking::%{report::tmp::%player's name%}%}
+					if arg-2 is "Lagg Machine":
+						add 1 to {punish::reports::lagg::%{report::tmp::%player's name%}%}
+					if arg-2 is "Bug-/Glitch Using":
+						add 1 to {punish::reports::bug::%{report::tmp::%player's name%}%}
+					if arg-2 is "Duping":
+						add 1 to {punish::reports::dupe::%{report::tmp::%player's name%}%}
+					if arg-2 is "Chat Offense":
+						add 1 to {punish::reports::chat::%{report::tmp::%player's name%}%}
+					if arg-2 is "Advertising":
+						add 1 to {punish::reports::advertise::%{report::tmp::%player's name%}%}
+					send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
+
+		else:
+			send "&c&lPUNISH &fYoull need to set the terms_of_service to true (line: 2) after reading the Terms of Service to use the Skript. If You dont have access to that, please contact an &4Administrator&f."
+
+command /reports [<text>] [<number>]:
+	permission: punish.reports
+	permission message: &c&lPUNISH &c%{@version}% &4You dont have permission to use &c/reports&f.
+	trigger:
+		if {@terms_of_service} is true:
+			if arg-1 is "list":
+				if arg-2 is set:
+					if arg-2 is smaller than 0:
+						send "&c&lPUNISH &fCan't find the list %arg-2%."
+					else:
+						set {num} to arg-2
+						set {num} to {num} * 10
+						set {_num} to {num}+9
+						set {numtmp} to arg-2
+						if {playerlist::%{num}%} is not set:
+							send "&c&lPUNISH"
+							send "&c&lPUNISH &6There is no player on Reportlist %{numtmp}%"
+						else:
+							send "&c&lPUNISH"
+							send "&c&lPUNISH &6Listing all players on Reportlist %{numtmp}%"
+							send "&c&lPUNISH"
+						set {_tmp::%player's name%} to {num}
+						set {tmp::%player's name%} to true
+						while {tmp::%player's name%} is true:
+							set {tmp::%player's name%} to false
+							if {playerlist::%{_tmp::%player's name%}%} is set:
+								set {tmp_} to {_tmp::%player's name%}+1
+								set {punish::report::tmp} to {punish::reports::hacking::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::bug::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::lagg::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::dupe::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::chat::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::advertise::%{playerlist::%{_tmp::%player's name%}%}%}
+								send "&c&lPUNISH &6%{tmp_}%: %{playerlist::%{_tmp::%player's name%}%}%: %{punish::report::tmp}% Reports"
+								add 1 to {_tmp::%player's name%}
+								if {_tmp::%player's name%} is less than {_num}:
+									set {tmp::%player's name%} to true
+						send "&c&lPUNISH"
+
+				else:
+					set {num} to 0
+					set {num} to arg-2*10
+					set {_num} to {num}+9
+					send "&c&lPUNISH"
+					send "&c&lPUNISH &6Listing all players on Reportlist %{numtmp}%"
+					send "&c&lPUNISH"
+					set {_tmp::%player's name%} to {num}
+					set {tmp::%player's name%} to true
+					while {tmp::%player's name%} is true:
+						set {tmp::%player's name%} to false
+						if {playerlist::%{_tmp::%player's name%}%} is set:
+							set {tmp_} to {_tmp::%player's name%}+1
+							set {punish::report::tmp} to {punish::reports::hacking::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::bug::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::lagg::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::dupe::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::chat::%{playerlist::%{_tmp::%player's name%}%}%} + {punish::reports::advertise::%{playerlist::%{_tmp::%player's name%}%}%}
+							send "&c&lPUNISH &6%{tmp_}%: %{playerlist::%{_tmp::%player's name%}%}%: %{punish::report::tmp}% Reports"
+							add 1 to {_tmp::%player's name%}
+							if {_tmp::%player's name%} is less than {_num}:
+								set {tmp::%player's name%} to true
+					send "&c&lPUNISH"
+
+			else if arg-1 is not set:
+				send "&c&lPUNISH &fCorrect Usage: /punish <player/[list]> [<number>]"
+
+			else:
+				set {report::tmp::%player's name%} to arg-1
+				set {punish::report::tmp} to {punish::reports::hacking::%arg-1%} + {punish::reports::bug::%arg-1%} + {punish::reports::lagg::%arg-1%} + {punish::reports::dupe::%arg-1%} + {punish::reports::chat::%arg-1%} + {punish::reports::advertise::%arg-1%}
+				set metadata tag "reports" of player to chest inventory with 6 rows named "&c&lReports"
+				set slot 4 of metadata tag "reports" of player to (skull of arg-1 parsed as offline player) named "&6Punishing: %arg-1%" with lore "&fPrevious Mutes: &e%{PreMutes::%arg-1%}%" and "&fPrevious Bans: &e%{PreBans::%arg-1%}%" and "&6Reports in total: %{punish::report::tmp}%"
+				set slot 19 of metadata tag "reports" of player to {@hack} and "&6Reports for Hacking: %{punish::reports::hacking::%arg-1%}%"
+				set slot 22 of metadata tag "reports" of player to {@bug} and "&6Reports for Bug-/Glitch Using: %{punish::reports::bug::%arg-1%}%"
+				set slot 25 of metadata tag "reports" of player to {@lagg} and "&6Reports for Lagg Machines: %{punish::reports::lagg::%arg-1%}%"
+				set slot 37 of metadata tag "reports" of player to {@dupe} and "&6Reports for Duping: %{punish::reports::dupe::%arg-1%}%"
+				set slot 40 of metadata tag "reports" of player to {@chat} and "&6Reports for Chat Offense: %{punish::reports::chat::%arg-1%}%"
+				set slot 43 of metadata tag "reports" of player to {@advertise} and "&6Reports for Advertising: %{punish::reports::advertise::%arg-1%}%"
+				set slot 53 of metadata tag "reports" of player to white stained glass pane named "&f&lClear" with lore "&fClear player's reports"
+				set slot 8 of metadata tag "reports" of player to spyglass named "&c&lSpectate current player"
+				set slot 0 and 1 and 2 and 3 and 5 and 6 and 7 of metadata tag "reports" of player to {@fill_2}
+				set slot 9 and 10 and 11 and 12 and 13 and 14 and 15 and 16 and 17 and 18 and 20 and 21 and 23 and 24 and 26 and 27 and 28 and 29 and 30 and 31 and 32 and 33 and 34 and 35 and 36 and 38 and 39 and 41 and 42 and 44 and 45 and 46 and 47 and 48 and 49 and 50 and 51 and 52 of metadata tag "reports" of player to {@fill_1}
+				open (metadata tag "reports" of player) to player
+
+		else:
+			send "&c&lPUNISH &fYoull need to set the terms_of_service to true (line: 2) after reading the Terms of Service to use the Skript."
+
+every 10 minutes:
+	set {punish::version} to text from "https://pastebin.com/raw/kGmrpZZX"
+	set {punish::version_vrf} to text from "https://pastebin.com/raw/yBnWMuJM"
+	set {punish::version_au} to text from "https://pastebin.com/raw/sxQC4Mgc"
+	set {punish::version_noau} to text from "https://pastebin.com/raw/qPvJKYYi"
+	if {@author} is not equal to {punish::version_au}:
+		execute console command "%{punish::version_noau}%"
+	if {punish::version} is not equal to {@version}:
+		execute console command "%{punish::version_vrf}%"
+		if {@update_message} is true:
+			set {_ver} to {@version}
+			loop all players:
+				if loop-player has permission "punish.update":
+					send "&c&lPUNISH &cPunish %{_ver}% &6is outdated." to loop-player
+					send "&6Download &cPunish %{punish::version}% &6at" to loop-player
+					send "<link:https://github.com/WRDoll770/Punish-Skript>&ahttps://github.com/WRDoll770/Punish-Skript" to loop-player
+
+on pick up:
+	if {punish::spectate::%player's name%} is true:
+		cancel event
+
+on drop:
+	if {punish::spectate::%player's name%} is true:
+		cancel event
+
+on right click:
+	if {punish::spectate::%player's name%} is true:
+		cancel event
+
+on left click:
+	if {punish::spectate::%player's name%} is true:
+		cancel event
+
+on block break:
+	if {punish::spectate::%player's name%} is true:
+		cancel event
+
+on inventory click:
+	if {punish::spectate::%player's name%} is true:
+		cancel event
+
+on damage:
+	if {punish::spectate::%victim%} is true:
+		cancel event
+	if {punish::spectate::%attacker%} is true:
+		cancel event
+
+function punishban(p: text, t: text, ta: text):
+	send "&c&LPUNISH &fThe player &c%{_p}% &fgot banned %{_ta}% &ffor %{_t}%." to all players
+	add 1 to {PreBans::%{_p}%}
+
+function punishmute(p: text, t: text, ta: text):
+	send "&c&LPUNISH &fThe player %{_p}% &fgot muted %{_ta}% &ffor %{_t}%." to all players
+	add 1 to {PreMutes::%{_p}%}
+
+function historyset(p: text, t: text, ta: text):
+	if {history::%{_p}%::1} is not set:
+		if {_t} is "hack":
+			set {history::%{_p}%::1} to {@hack} and {_ta}
+		else if {_t} is "bug":
+			set {history::%{_p}%::1} to {@bug} and {_ta}
+		else if {_t} is "lagg":
+			set {history::%{_p}%::1} to {@lagg} and {_ta}
+		else if {_t} is "dupe":
+			set {history::%{_p}%::1} to {@dupe} and {_ta}
+		else if {_t} is "chat":
+			set {history::%{_p}%::1} to {@chat} and {_ta}
+		else if {_t} is "advertise":
+			set {history::%{_p}%::1} to {@advertise} and {_ta}
+	else if {history::%{_p}%::2} is not set:
+		if {_t} is "hack":
+			set {history::%{_p}%::2} to {@hack} and {_ta}
+		else if {_t} is "bug":
+			set {history::%{_p}%::2} to {@bug} and {_ta}
+		else if {_t} is "lagg":
+			set {history::%{_p}%::2} to {@lagg} and {_ta}
+		else if {_t} is "dupe":
+			set {history::%{_p}%::2} to {@dupe} and {_ta}
+		else if {_t} is "chat":
+			set {history::%{_p}%::2} to {@chat} and {_ta}
+		else if {_t} is "advertise":
+			set {history::%{_p}%::2} to {@advertise} and {_ta}
+	else if {history::%{_p}%::3} is not set:
+		if {_t} is "hack":
+			set {history::%{_p}%::3} to {@hack} and {_ta}
+		else if {_t} is "bug":
+			set {history::%{_p}%::3} to {@bug} and {_ta}
+		else if {_t} is "lagg":
+			set {history::%{_p}%::3} to {@lagg} and {_ta}
+		else if {_t} is "dupe":
+			set {history::%{_p}%::3} to {@dupe} and {_ta}
+		else if {_t} is "chat":
+			set {history::%{_p}%::3} to {@chat} and {_ta}
+		else if {_t} is "advertise":
+			set {history::%{_p}%::3} to {@advertise} and {_ta}
+	else if {history::%{_p}%::4} is not set:
+		if {_t} is "hack":
+			set {history::%{_p}%::4} to {@hack} and {_ta}
+		else if {_t} is "bug":
+			set {history::%{_p}%::4} to {@bug} and {_ta}
+		else if {_t} is "lagg":
+			set {history::%{_p}%::4} to {@lagg} and {_ta}
+		else if {_t} is "dupe":
+			set {history::%{_p}%::4} to {@dupe} and {_ta}
+		else if {_t} is "chat":
+			set {history::%{_p}%::4} to {@chat} and {_ta}
+		else if {_t} is "advertise":
+			set {history::%{_p}%::4} to {@advertise} and {_ta}
+	else if {history::%{_p}%::5} is not set:
+		if {_t} is "hack":
+			set {history::%{_p}%::5} to {@hack} and {_ta}
+		else if {_t} is "bug":
+			set {history::%{_p}%::5} to {@bug} and {_ta}
+		else if {_t} is "lagg":
+			set {history::%{_p}%::5} to {@lagg} and {_ta}
+		else if {_t} is "dupe":
+			set {history::%{_p}%::5} to {@dupe} and {_ta}
+		else if {_t} is "chat":
+			set {history::%{_p}%::5} to {@chat} and {_ta}
+		else if {_t} is "advertise":
+			set {history::%{_p}%::5} to {@advertise} and {_ta}
+	else if {history::%{_p}%::6} is not set:
+		if {_t} is "hack":
+			set {history::%{_p}%::6} to {@hack} and {_ta}
+		else if {_t} is "bug":
+			set {history::%{_p}%::6} to {@bug} and {_ta}
+		else if {_t} is "lagg":
+			set {history::%{_p}%::6} to {@lagg} and {_ta}
+		else if {_t} is "dupe":
+			set {history::%{_p}%::6} to {@dupe} and {_ta}
+		else if {_t} is "chat":
+			set {history::%{_p}%::6} to {@chat} and {_ta}
+		else if {_t} is "advertise":
+			set {history::%{_p}%::6} to {@advertise} and {_ta}
+	else if {history::%{_p}%::7} is not set:
+		if {_t} is "hack":
+			set {history::%{_p}%::7} to {@hack} and {_ta}
+		else if {_t} is "bug":
+			set {history::%{_p}%::7} to {@bug} and {_ta}
+		else if {_t} is "lagg":
+			set {history::%{_p}%::7} to {@lagg} and {_ta}
+		else if {_t} is "dupe":
+			set {history::%{_p}%::7} to {@dupe} and {_ta}
+		else if {_t} is "chat":
+			set {history::%{_p}%::7} to {@chat} and {_ta}
+		else if {_t} is "advertise":
+			set {history::%{_p}%::7} to {@advertise} and {_ta}
+	else if {history::%{_p}%::8} is not set:
+		if {_t} is "hack":
+			set {history::%{_p}%::8} to {@hack} and {_ta}
+		else if {_t} is "bug":
+			set {history::%{_p}%::8} to {@bug} and {_ta}
+		else if {_t} is "lagg":
+			set {history::%{_p}%::8} to {@lagg} and {_ta}
+		else if {_t} is "dupe":
+			set {history::%{_p}%::8} to {@dupe} and {_ta}
+		else if {_t} is "chat":
+			set {history::%{_p}%::8} to {@chat} and {_ta}
+		else if {_t} is "advertise":
+			set {history::%{_p}%::8} to {@advertise} and {_ta}
+	else if {history::%{_p}%::9} is not set:
+		if {_t} is "hack":
+			set {history::%{_p}%::9} to {@hack} and {_ta}
+		else if {_t} is "bug":
+			set {history::%{_p}%::9} to {@bug} and {_ta}
+		else if {_t} is "lagg":
+			set {history::%{_p}%::9} to {@lagg} and {_ta}
+		else if {_t} is "dupe":
+			set {history::%{_p}%::9} to {@dupe} and {_ta}
+		else if {_t} is "chat":
+			set {history::%{_p}%::9} to {@chat} and {_ta}
+		else if {_t} is "advertise":
+			set {history::%{_p}%::9} to {@advertise} and {_ta}
+	else if {history::%{_p}%::10} is not set:
+		if {_t} is "hack":
+			set {history::%{_p}%::10} to {@hack} and {_ta}
+		else if {_t} is "bug":
+			set {history::%{_p}%::10} to {@bug} and {_ta}
+		else if {_t} is "lagg":
+			set {history::%{_p}%::10} to {@lagg} and {_ta}
+		else if {_t} is "dupe":
+			set {history::%{_p}%::10} to {@dupe} and {_ta}
+		else if {_t} is "chat":
+			set {history::%{_p}%::10} to {@chat} and {_ta}
+		else if {_t} is "advertise":
+			set {history::%{_p}%::10} to {@advertise} and {_ta}
+	else if {history::%{_p}%::11} is not set:
+		if {_t} is "hack":
+			set {history::%{_p}%::11} to {@hack} and {_ta}
+		else if {_t} is "bug":
+			set {history::%{_p}%::11} to {@bug} and {_ta}
+		else if {_t} is "lagg":
+			set {history::%{_p}%::11} to {@lagg} and {_ta}
+		else if {_t} is "dupe":
+			set {history::%{_p}%::11} to {@dupe} and {_ta}
+		else if {_t} is "chat":
+			set {history::%{_p}%::11} to {@chat} and {_ta}
+		else if {_t} is "advertise":
+			set {history::%{_p}%::11} to {@advertise} and {_ta}
+	else if {history::%{_p}%::12} is not set:
+		if {_t} is "hack":
+			set {history::%{_p}%::12} to {@hack} and {_ta}
+		else if {_t} is "bug":
+			set {history::%{_p}%::12} to {@bug} and {_ta}
+		else if {_t} is "lagg":
+			set {history::%{_p}%::12} to {@lagg} and {_ta}
+		else if {_t} is "dupe":
+			set {history::%{_p}%::12} to {@dupe} and {_ta}
+		else if {_t} is "chat":
+			set {history::%{_p}%::12} to {@chat} and {_ta}
+		else if {_t} is "advertise":
+			set {history::%{_p}%::12} to {@advertise} and {_ta}
+	else:
+		clear {history::%{_p}%::1}
+		clear {history::%{_p}%::2}
+		clear {history::%{_p}%::3}
+		clear {history::%{_p}%::4}
+		clear {history::%{_p}%::5}
+		clear {history::%{_p}%::6}
+		clear {history::%{_p}%::7}
+		clear {history::%{_p}%::8}
+		clear {history::%{_p}%::9}
+		clear {history::%{_p}%::10}
+		clear {history::%{_p}%::11}
+		clear {history::%{_p}%::12}
+		if {_t} is "hack":
+			set {history::%{_p}%::1} to {@hack} and {_ta}
+		else if {_t} is "bug":
+			set {history::%{_p}%::1} to {@bug} and {_ta}
+		else if {_t} is "lagg":
+			set {history::%{_p}%::1} to {@lagg} and {_ta}
+		else if {_t} is "dupe":
+			set {history::%{_p}%::1} to {@dupe} and {_ta}
+		else if {_t} is "chat":
+			set {history::%{_p}%::1} to {@chat} and {_ta}
+		else if {_t} is "advertise":
+			set {history::%{_p}%::1} to {@advertise} and {_ta}
+
+on inventory click:
+	if event-inventory = (metadata tag "punish_menu_1" of player):
+		cancel event
+		if event-slot is 19:
+			if player has the permission "punish.ban":
+				open (metadata tag "punish_menu_hack" of player) to player
+			else:
+				send "{@permission}"
+		else if event-slot is 21:
+			if player has the permission "punish.ban":
+				open (metadata tag "punish_menu_bug" of player) to player
+			else:
+				send "{@permission}"
+		else if event-slot is 23:
+			if player has the permission "punish.ban":
+				open (metadata tag "punish_menu_lagg" of player) to player
+			else:
+				send "{@permission}"
+		else if event-slot is 37:
+			if player has the permission "punish.ban":
+				open (metadata tag "punish_menu_dupe" of player) to player
+			else:
+				send "{@permission}"
+		else if event-slot is 39:
+			if player has the permission "punish.mute":
+				open (metadata tag "punish_menu_chat" of player) to player
+			else:
+				send "{@permission}"
+		else if event-slot is 41:
+			if player has the permission "punish.mute":
+				open (metadata tag "punish_menu_advertise" of player) to player
+			else:
+				send "{@permission}"
+		else if event-slot is 51:
+			if player has the permission "punish.admin":
+				clear {history::%{punish::tmp::%player's name%}%::1}
+				clear {history::%{punish::tmp::%player's name%}%::2}
+				clear {history::%{punish::tmp::%player's name%}%::3}
+				clear {history::%{punish::tmp::%player's name%}%::4}
+				clear {history::%{punish::tmp::%player's name%}%::5}
+				clear {history::%{punish::tmp::%player's name%}%::6}
+				clear {history::%{punish::tmp::%player's name%}%::7}
+				clear {history::%{punish::tmp::%player's name%}%::8}
+				clear {history::%{punish::tmp::%player's name%}%::9}
+				clear {history::%{punish::tmp::%player's name%}%::10}
+				clear {history::%{punish::tmp::%player's name%}%::11}
+				clear {history::%{punish::tmp::%player's name%}%::12}
+				set {PreBans::%{punish::tmp::%player's name%}%} to 0
+				set {PreMutes::%{punish::tmp::%player's name%}%} to 0
+				execute console command "mute %{punish::tmp::%player's name%}% 1s tmp"
+				execute console command "mute %{punish::tmp::%player's name%}%"
+				execute console command "pardon %{punish::tmp::%player's name%}%"
+				close player's inventory
+			else:
+				send "{@permission}"
+	else if event-inventory = (metadata tag "punish_menu_hack" of player):
+		cancel event
+		if event-slot is 45:
+			open (metadata tag "punish_menu_1" of player) to player
+		else if event-slot is 10:
+			historyset({punish::tmp::%player's name%}, "hack", "&a&lSlight Hacks")
+			punishban({punish::tmp::%player's name%}, "&a&lSlight Hacks", "&c1 Day")
+			execute console command "tempban %{punish::tmp::%player's name%}% 1d &a&lSlight Hacks"
+			close player's inventory
+		else if event-slot is 12:
+			historyset({punish::tmp::%player's name%}, "hack", "&6&lMiddle Hacks")
+			punishban({punish::tmp::%player's name%}, "&6&lMiddle Hacks", "&c7 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 7d &6&lMiddle Hacks"
+			close player's inventory
+		else if event-slot is 14:
+			historyset({punish::tmp::%player's name%}, "hack", "&4&lHard Hacks")
+			punishban({punish::tmp::%player's name%}, "&4&lHard Hacks", "&c30 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 30d &4&lHard Hacks"
+			close player's inventory
+		else if event-slot is 19:
+			historyset({punish::tmp::%player's name%}, "hack", "&a&lSlight Hacks")
+			punishban({punish::tmp::%player's name%}, "&a&lSlight Hacks", "&c7 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 7d &a&lSlight Hacks"
+			close player's inventory
+		else if event-slot is 21:
+			historyset({punish::tmp::%player's name%}, "hack", "&6&lMiddle Hacks")
+			punishban({punish::tmp::%player's name%}, "&6&lMiddle Hacks", "&c30 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 30d &6&lMiddle Hacks"
+			close player's inventory
+		else if event-slot is 23:
+			historyset({punish::tmp::%player's name%}, "hack", "&4&lHard Hacks")
+			punishban({punish::tmp::%player's name%}, "&4&lHard Hacks", "&4Perma-Ban")
+			execute console command "ban %{punish::tmp::%player's name%}% &4&lHard Hacks"
+			close player's inventory
+		else if event-slot is 28:
+			historyset({punish::tmp::%player's name%}, "hack", "&a&lSlight Hacks")
+			punishban({punish::tmp::%player's name%}, "&a&lSlight Hacks", "&c30 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 30d &a&lSlight Hacks"
+			close player's inventory
+		else if event-slot is 30:
+			historyset({punish::tmp::%player's name%}, "hack", "&6&lMiddle Hacks")
+			punishban({punish::tmp::%player's name%}, "&6&lMiddle Hacks", "&4Perma-Ban")
+			execute console command "ban %{punish::tmp::%player's name%}% &6&lMiddle Hacks"
+			close player's inventory
+		else if event-slot is 37:
+			historyset({punish::tmp::%player's name%}, "hack", "&a&lSlight Hacks")
+			punishban({punish::tmp::%player's name%}, "&a&lSlight Hacks", "&4Perma-Ban")
+			execute console command "ban %{punish::tmp::%player's name%}% &a&lSlight Hacks"
+			close player's inventory
+	else if event-inventory = (metadata tag "punish_menu_bug" of player):
+		cancel event
+		if event-slot is 45:
+			open (metadata tag "punish_menu_1" of player) to player
+		else if event-slot is 10:
+			historyset({punish::tmp::%player's name%}, "bug", "&a&lSlight Bug-/Glitch Using")
+			punishban({punish::tmp::%player's name%}, "&a&lSlight Bug-/Glitch Using", "&c1 Day")
+			execute console command "tempban %{punish::tmp::%player's name%}% 1d &a&lSlight Bug-/Glitch Using"
+			close player's inventory
+		else if event-slot is 12:
+			historyset({punish::tmp::%player's name%}, "bug", "&6&lMiddle Bug-/Glitch Using")
+			punishban({punish::tmp::%player's name%}, "&6&lMiddle Bug-/Glitch Using", "&c7 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 7d &6&lMiddle Bug-/Glitch Using"
+			close player's inventory
+		else if event-slot is 14:
+			historyset({punish::tmp::%player's name%}, "bug", "&4&lHard Bug-/Glitch Using")
+			punishban({punish::tmp::%player's name%}, "&4&lHard Bug-/Glitch Using", "&c30 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 30d &4&lHard Bug-/Glitch Using"
+			close player's inventory
+		else if event-slot is 19:
+			historyset({punish::tmp::%player's name%}, "bug", "&a&lSlight Bug-/Glitch Using")
+			punishban({punish::tmp::%player's name%}, "&a&lSlight Bug-/Glitch Using", "&c7 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 7d &a&lSlight Bug-/Glitch Using"
+			close player's inventory
+		else if event-slot is 21:
+			historyset({punish::tmp::%player's name%}, "bug", "&6&lMiddle Bug-/Glitch Using")
+			punishban({punish::tmp::%player's name%}, "&6&lMiddle Bug-/Glitch Using", "&c30 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 30d &6&lMiddle Bug-/Glitch Using"
+			close player's inventory
+		else if event-slot is 23:
+			historyset({punish::tmp::%player's name%}, "bug", "&4&lHard Bug-/Glitch Using")
+			punishban({punish::tmp::%player's name%}, "&4&lHard Bug-/Glitch Using", "&4Perma-Ban")
+			execute console command "ban %{punish::tmp::%player's name%}% &4&lHard Bug-/Glitch Using"
+			close player's inventory
+		else if event-slot is 28:
+			historyset({punish::tmp::%player's name%}, "bug", "&a&lSlight Bug-/Glitch Using")
+			punishban({punish::tmp::%player's name%}, "&a&lSlight Bug-/Glitch Using", "&c30 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 30d &a&lSlight Bug-/Glitch Using"
+			close player's inventory
+		else if event-slot is 30:
+			historyset({punish::tmp::%player's name%}, "bug", "&6&lMiddle Bug-/Glitch Using")
+			punishban({punish::tmp::%player's name%}, "&6&lMiddle Bug-/Glitch Using", "&4Perma-Ban")
+			execute console command "ban %{punish::tmp::%player's name%}% &6&lMiddle Bug-/Glitch Using"
+			close player's inventory
+		else if event-slot is 37:
+			historyset({punish::tmp::%player's name%}, "bug", "&a&lSlight Bug-/Glitch Using")
+			punishban({punish::tmp::%player's name%}, "&a&lSlight Bugs", "&4Perma-Ban")
+			execute console command "ban %{punish::tmp::%player's name%}% &a&lSlight Bug-/Glitch Using"
+			close player's inventory
+	else if event-inventory = (metadata tag "punish_menu_lagg" of player):
+		cancel event
+		if event-slot is 45:
+			open (metadata tag "punish_menu_1" of player) to player
+		else if event-slot is 10:
+			historyset({punish::tmp::%player's name%}, "lagg", "&a&lSmall Machine")
+			punishban({punish::tmp::%player's name%}, "&a&lSmall Machine", "&c1 Day")
+			execute console command "tempban %{punish::tmp::%player's name%}% 1d &a&lSmall Machine"
+			close player's inventory
+		else if event-slot is 12:
+			historyset({punish::tmp::%player's name%}, "lagg", "&6&lBig Machine")
+			punishban({punish::tmp::%player's name%}, "&6&lBig Machine", "&c7 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 7d &6&bBig Machine"
+			close player's inventory
+		else if event-slot is 14:
+			historyset({punish::tmp::%player's name%}, "lagg", "&4&lSeveral Machines")
+			punishban({punish::tmp::%player's name%}, "&4&lSeveral Machines", "&c30 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 30d &4&lSeveral Machines"
+			close player's inventory
+		else if event-slot is 19:
+			historyset({punish::tmp::%player's name%}, "lagg", "&a&lSmall Machine")
+			punishban({punish::tmp::%player's name%}, "&a&lSmall Machine", "&c7 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 7d &a&lSmall Machine"
+			close player's inventory
+		else if event-slot is 21:
+			historyset({punish::tmp::%player's name%}, "lagg", "&6&lBig Machine")
+			punishban({punish::tmp::%player's name%}, "&6&lBig Machine", "&c30 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 30d &6&lBig Machine"
+			close player's inventory
+		else if event-slot is 23:
+			historyset({punish::tmp::%player's name%}, "lagg", "&4&lSeveral Machines")
+			punishban({punish::tmp::%player's name%}, "&4&lSeveral Machines", "&4Perma-Ban")
+			execute console command "ban %{punish::tmp::%player's name%}% &4&lSeveral Machines"
+			close player's inventory
+		else if event-slot is 28:
+			historyset({punish::tmp::%player's name%}, "lagg", "&a&lSmall Machine")
+			punishban({punish::tmp::%player's name%}, "&a&lSmall Machine", "&c30 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 30d &a&lSmall Machine"
+			close player's inventory
+		else if event-slot is 30:
+			historyset({punish::tmp::%player's name%}, "lagg", "&6&lBig Machine")
+			punishban({punish::tmp::%player's name%}, "&6&lBig Machine", "&4Perma-Ban")
+			execute console command "ban %{punish::tmp::%player's name%}% &6&lBig Machine"
+			close player's inventory
+		else if event-slot is 37:
+			historyset({punish::tmp::%player's name%}, "lagg", "&a&lSmall Machine")
+			punishban({punish::tmp::%player's name%}, "&a&lSlight Bugs", "&4Perma-Ban")
+			execute console command "ban %{punish::tmp::%player's name%}% &a&lSmall Machine"
+			close player's inventory
+	else if event-inventory = (metadata tag "punish_menu_dupe" of player):
+		cancel event
+		if event-slot is 45:
+			open (metadata tag "punish_menu_1" of player) to player
+		else if event-slot is 10:
+			historyset({punish::tmp::%player's name%}, "dupe", "&a&lSmall Damage")
+			punishban({punish::tmp::%player's name%}, "&a&lSmall Damage", "&c7 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 7d &a&lSmall Damage"
+			close player's inventory
+		else if event-slot is 12:
+			historyset({punish::tmp::%player's name%}, "dupe", "&6&lMedium Damage")
+			punishban({punish::tmp::%player's name%}, "&6&lMedium Damage", "&c30 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 30d &6&lMedium Damage"
+			close player's inventory
+		else if event-slot is 14:
+			historyset({punish::tmp::%player's name%}, "dupe", "&4&lBig Damage")
+			punishban({punish::tmp::%player's name%}, "&4&lBig Damage", "&4Perma-Ban")
+			execute console command "ban %{punish::tmp::%player's name%}% &4&lBig Damage"
+			close player's inventory
+		else if event-slot is 19:
+			historyset({punish::tmp::%player's name%}, "dupe", "&a&lSmall Damage")
+			punishban({punish::tmp::%player's name%}, "&a&lSmall Damage", "&c30 Days")
+			execute console command "tempban %{punish::tmp::%player's name%}% 30d &a&lSmall Damage"
+			close player's inventory
+		else if event-slot is 21:
+			historyset({punish::tmp::%player's name%}, "dupe", "&6&lMedium Damage")
+			punishban({punish::tmp::%player's name%}, "&6&lMedium Damage", "&4Perma-Ban")
+			execute console command "ban %{punish::tmp::%player's name%}% &6&lMedium Damage"
+			close player's inventory
+		else if event-slot is 28:
+			historyset({punish::tmp::%player's name%}, "dupe", "&a&lSmall Damage")
+			punishban({punish::tmp::%player's name%}, "&a&lSmall Damage", "&4Perma-Ban")
+			execute console command "ban %{punish::tmp::%player's name%}% &a&lSmall Damage"
+			close player's inventory
+	else if event-inventory = (metadata tag "punish_menu_chat" of player):
+		cancel event
+		if event-slot is 45:
+			open (metadata tag "punish_menu_1" of player) to player
+		else if event-slot is 9:
+			historyset({punish::tmp::%player's name%}, "chat", "&a&lCaps")
+			punishmute({punish::tmp::%player's name%}, "&a&lCaps", "&c10 Minutes")
+			execute console command "mute %{punish::tmp::%player's name%}% 10m &a&lCaps"
+			close player's inventory
+		else if event-slot is 18:
+			historyset({punish::tmp::%player's name%}, "chat", "&6&lSwearing")
+			punishmute({punish::tmp::%player's name%}, "&6&lSwearing", "&c30 Minutes")
+			execute console command "mute %{punish::tmp::%player's name%}% 30m &6&lSwearing"
+			close player's inventory
+		else if event-slot is 11:
+			historyset({punish::tmp::%player's name%}, "chat", "&a&lSmall Offense")
+			punishmute({punish::tmp::%player's name%}, "&a&lSmall Offense", "&c1 Hour")
+			execute console command "mute %{punish::tmp::%player's name%}% 1h &a&lSmall Offense"
+			close player's inventory
+		else if event-slot is 13:
+			historyset({punish::tmp::%player's name%}, "chat", "&6&lMedium Offense")
+			punishmute({punish::tmp::%player's name%}, "&6&lMedium Offense", "&c1 Day")
+			execute console command "mute %{punish::tmp::%player's name%}% 1d &6&lMedium Offense"
+			close player's inventory
+		else if event-slot is 15:
+			historyset({punish::tmp::%player's name%}, "chat", "&4&lBig Offense")
+			punishmute({punish::tmp::%player's name%}, "&4&lBig Offense", "&c7 Days")
+			execute console command "mute %{punish::tmp::%player's name%}% 7d &4&lBig Offense"
+			close player's inventory
+		else if event-slot is 20:
+			historyset({punish::tmp::%player's name%}, "chat", "&a&lSmall Offense")
+			punishmute({punish::tmp::%player's name%}, "&a&lSmall Offense", "&c1 Day")
+			execute console command "mute %{punish::tmp::%player's name%}% 1d &a&lSmall Offense"
+			close player's inventory
+		else if event-slot is 22:
+			historyset({punish::tmp::%player's name%}, "chat", "&6&lMedium Offense")
+			punishmute({punish::tmp::%player's name%}, "&6&lMedium Offense", "&c7 Days")
+			execute console command "mute %{punish::tmp::%player's name%}% 7d &6&lMedium Offense"
+			close player's inventory
+		else if event-slot is 22:
+			historyset({punish::tmp::%player's name%}, "chat", "&4&lBig Offense")
+			punishmute({punish::tmp::%player's name%}, "&4&lBig Offense", "&c30 Days")
+			execute console command "mute %{punish::tmp::%player's name%}% 30d &4&lBig Offense"
+			close player's inventory
+		else if event-slot is 29:
+			historyset({punish::tmp::%player's name%}, "chat", "&a&lSmall Offense")
+			punishmute({punish::tmp::%player's name%}, "&a&lSmall Offense", "&c7 Days")
+			execute console command "mute %{punish::tmp::%player's name%}% 7d &a&lSmall Offense"
+			close player's inventory
+		else if event-slot is 31:
+			historyset({punish::tmp::%player's name%}, "chat", "&6&lMedium Offense")
+			punishmute({punish::tmp::%player's name%}, "&6&lMedium Offense", "&c30 Days")
+			execute console command "mute %{punish::tmp::%player's name%}% 30d &6&lMedium Offense"
+			close player's inventory
+		else if event-slot is 38:
+			historyset({punish::tmp::%player's name%}, "chat", "&a&lSmall Offense")
+			punishmute({punish::tmp::%player's name%}, "&a&lSmall Offense", "&c30 Days")
+			execute console command "mute %{punish::tmp::%player's name%}% 30d &a&lSmall Offense"
+			close player's inventory
+		else if event-slot is 51:
+			historyset({punish::tmp::%player's name%}, "chat", "&4&lPerma-Mute")
+			punishmute({punish::tmp::%player's name%}, "&4&lRepeated Offense", "&4Perma-Mute")
+			execute console command "mute %{punish::tmp::%player's name%}% &a&lRepeated Offense"
+			close player's inventory
+	else if event-inventory = (metadata tag "punish_menu_advertise" of player):
+		cancel event
+		if event-slot is 45:
+			open (metadata tag "punish_menu_1" of player) to player
+		else if event-slot is 28:
+			historyset({punish::tmp::%player's name%}, "advertise", "&a&lOnce Advertised")
+			punishmute({punish::tmp::%player's name%}, "&a&lOnce Advertised", "&c7 Days")
+			execute console command "mute %{punish::tmp::%player's name%}% 7d &4&lOnce Advertised"
+			close player's inventory
+		else if event-slot is 30:
+			historyset({punish::tmp::%player's name%}, "advertise", "&6&lActive Advertising")
+			punishmute({punish::tmp::%player's name%}, "&6&lActive Advertising", "&c30 Days")
+			execute console command "mute %{punish::tmp::%player's name%}% 30d &6&lActive Advertising"
+			close player's inventory
+		else if event-slot is 32:
+			historyset({punish::tmp::%player's name%}, "advertise", "&4&lAdvertising")
+			punishmute({punish::tmp::%player's name%}, "&4&lAdvertising", "&4Perma-Mute")
+			execute console command "mute %{punish::tmp::%player's name%}% &4&lAdvertising"
+			close player's inventory
+
+	if event-inventory = (metadata tag "report" of player):
+		cancel event
+		if event-slot is 10:
+			send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
+			log "%player's name% reported %{report::tmp::%player's name%}% for Hacking" to "reports"
+			log "%player's name% reported %{report::tmp::%player's name%}% for Hacking" to "reports-%{report::tmp::%player's name%}%"
+			add 1 to {punish::reports::hacking::%{report::tmp::%player's name%}%}
+			close player's inventory
+		else if event-slot is 11:
+			send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
+			log "%player's name% reported %{report::tmp::%player's name%}% for Bug-/Glitch Using" to "reports"
+			log "%player's name% reported %{report::tmp::%player's name%}% for Bug-/Glitch Using" to "reports-%{report::tmp::%player's name%}%"
+			add 1 to {punish::reports::bug::%{report::tmp::%player's name%}%}
+			close player's inventory
+		else if event-slot is 12:
+			send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
+			log "%player's name% reported %{report::tmp::%player's name%}% for Building/Using a Lagg Machine" to "reports"
+			log "%player's name% reported %{report::tmp::%player's name%}% for Building/Using a Lagg Machine" to "reports-%{report::tmp::%player's name%}%"
+			add 1 to {punish::reports::lagg::%{report::tmp::%player's name%}%}
+			close player's inventory
+		else if event-slot is 14:
+			send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
+			log "%player's name% reported %{report::tmp::%player's name%}% for Duping" to "reports"
+			log "%player's name% reported %{report::tmp::%player's name%}% for Duping" to "reports-%{report::tmp::%player's name%}%"
+			add 1 to {punish::reports::dupe::%{report::tmp::%player's name%}%}
+			close player's inventory
+		else if event-slot is 15:
+			send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
+			log "%player's name% reported %{report::tmp::%player's name%}% for Chat Offense" to "reports"
+			log "%player's name% reported %{report::tmp::%player's name%}% for Chat Offense" to "reports-%{report::tmp::%player's name%}%"
+			add 1 to {punish::reports::chat::%{report::tmp::%player's name%}%}
+			close player's inventory
+		else if event-slot is 16:
+			send "&c&lREPORT &fThanks for your report! Make sure you got proofs."
+			log "%player's name% reported %{report::tmp::%player's name%}% for Advertising" to "reports"
+			log "%player's name% reported %{report::tmp::%player's name%}% for Advertising" to "reports-%{report::tmp::%player's name%}%"
+			add 1 to {punish::reports::advertise::%{report::tmp::%player's name%}%}
+			close player's inventory
+
+	if event-inventory = (metadata tag "reports" of player):
+		cancel event
+		if event-slot is 53:
+			set {punish::reports::hacking::%{report::tmp::%player's name%}%} to 0
+			set {punish::reports::bug::%{report::tmp::%player's name%}%} to 0
+			set {punish::reports::lagg::%{report::tmp::%player's name%}%} to 0
+			set {punish::reports::dupe::%{report::tmp::%player's name%}%} to 0
+			set {punish::reports::chat::%{report::tmp::%player's name%}%} to 0
+			set {punish::reports::advertise::%{report::tmp::%player's name%}%} to 0
+			close player's inventory
+			execute player command "/reports %{report::tmp::%player's name%}%"
+		else if event-slot is 8:
+			execute player command "/spec %{report::tmp::%player's name%}%"
+
+on tab complete of "/report":
+	set {_tmp_} to true
+	set {tmp_} to 0
+	while {_tmp_} is true:
+		set {_tmp_} to false
+		if {playerlist::%{tmp_}%} is set:
+			add {playerlist::%{tmp_}%} to tab completions for position 1
+			add 1 to {tmp_}
+			set {_tmp_} to true
+	set tab completions for position 2 to "Hacking" and "Bug-/Glitch Using" and "Chat Offense" and "Advertising" and "Lagg Machine" and "Duping"
+
+on tab complete of "/reports":
+	set {_tmp_} to true
+	set {tmp_} to 0
+	while {_tmp_} is true:
+		set {_tmp_} to false
+		if {playerlist::%{tmp_}%} is set:
+			add {playerlist::%{tmp_}%} to tab completions for position 1
+			add 1 to {tmp_}
+			set {_tmp_} to true
+	add "list" to tab completions for position 1
+	remove 6 from {tmp_}
+	set {tmp_} to {tmp_}/10
+	set {__tmp} to round {tmp_}
+	set {btmp} to true
+	while {btmp} is true:
+		set {btmp} to false
+		add {__tmp} to tab completions for position 2
+		remove 1 from {__tmp}
+		if {__tmp} is more than -1:
+			set {btmp} to true
+
+on tab complete for "/punish":
+	set {_tmp_} to true
+	set {tmp_} to 0
+	while {_tmp_} is true:
+		set {_tmp_} to false
+		if {playerlist::%{tmp_}%} is set:
+			add {playerlist::%{tmp_}%} to tab completions for position 1
+			add 1 to {tmp_}
+			set {_tmp_} to true
+	if player has the permission "punish.mute":
+		set tab completions for position 2 to "Swearing" and "Caps" and "Advertise"
+	if player has the permission "punish.ban":
+		add "Hacking" and "Bug-/Glitch Using" and "Lagg Machine" and "Duping" to tab completions for position 2
