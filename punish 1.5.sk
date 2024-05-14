@@ -1,5 +1,5 @@
 options:
-	terms_of_service: true # https://wrdoll.wordpress.com/skripts/terms-of-service/
+	terms_of_service: false # https://wrdoll.wordpress.com/skripts/terms-of-service/
 	update_message: true
 	fill_1: gray stained glass pane named " "
 	fill_2: red stained glass pane named " "
