@@ -1,5 +1,5 @@
 options:
-	terms_of_service: false # https://wrdoll.wordpress.com/skripts/terms-of-service/
+	terms_of_service: true # https://wrdoll.wordpress.com/skripts/terms-of-service/
 	update_message: true
 	fill_1: gray stained glass pane named " "
 	fill_2: red stained glass pane named " "
@@ -38,24 +38,6 @@ on join:
 			add 1 to {tmp}
 		else:
 			set {playerlist::%{tmp}%} to player's name
-
-on first join:
-	set {punish::reports::hacking::%player's name%} to 0
-	set {punish::reports::bug::%player's name%} to 0
-	set {punish::reports::lagg::%player's name%} to 0
-	set {punish::reports::dupe::%player's name%} to 0
-	set {punish::reports::chat::%player's name%} to 0
-	set {punish::reports::advertise::%player's name%} to 0
-	set {_tmp} to true
-	set {tmp} to 0
-	while {_tmp} is true:
-		set {_tmp} to false
-		if {playerlist::%{tmp}%} is set:
-			set {_tmp} to true
-			add 1 to {tmp}
-		else:
-			set {playerlist::%{tmp}%} to player's name
-
 
 command /punish [<offline player>] [<text>]:
 	permission: punish.menu
@@ -343,8 +325,8 @@ command /spec [<player>]:
 					set {punish::location::%player's name%} to player's location
 					hide player from all players
 					set {punish::gamemode::%player's name%} to player's gamemode
-					execute console command "gamemode creative %player's name%"
 					teleport player to arg-1
+					execute console command "gamemode creative %player's name%"
 				else:
 					send "&c&lPUNISH &fCorrect Usage: &6/spec &f<player>"
 			else:
