@@ -318,6 +318,14 @@ command /spec [<player>]:
 	trigger:
 		if {@terms_of_service} is true:
 			if {punish::spectate::%player's name%} is false:
+				send "&c&lPUNISH &fYou are no longer spectating."
+				set {punish::spectate::%player's name%} to false
+				teleport player to {punish::location::%player's name%}
+				reveal the player from all players
+				execute console command "gamemode %{punish::gamemode::%player's name%}% %player's name%"
+				else:
+					send "&c&lPUNISH &fCorrect Usage: &6/spec &f<player>"
+			else:
 				if arg-1 is set:
 					send "&c&lPUNISH &fYou are now spectating %arg-1%"
 					send "&c&lPUNISH &fdo /spec to leave spectator mode!"
@@ -327,14 +335,6 @@ command /spec [<player>]:
 					set {punish::gamemode::%player's name%} to player's gamemode
 					teleport player to arg-1
 					execute console command "gamemode creative %player's name%"
-				else:
-					send "&c&lPUNISH &fCorrect Usage: &6/spec &f<player>"
-			else:
-				send "&c&lPUNISH &fYou are no longer spectating."
-				set {punish::spectate::%player's name%} to false
-				teleport player to {punish::location::%player's name%}
-				reveal the player from all players
-				execute console command "gamemode %{punish::gamemode::%player's name%}% %player's name%"
 		else:
 			send "&c&lPUNISH &fYoull need to set the terms_of_service to true (line: 2) after reading the Terms of Service to use the Skript."
 
