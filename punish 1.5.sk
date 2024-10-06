@@ -11,7 +11,7 @@ options:
 	chat: book and quill named "&c&lChat Offense" with lore "&fAny sort of insult ect."
 	advertise: goat horn named "&c&lAdvertising" with lore "&fAdvertising the own/other Servers/Channels ect."
 	permission: &c&lPUNISH &fYou dont have the permission to do that!
-	version: "1.5" # DO NOT CHANGE
+	version: "1.5.1" # DO NOT CHANGE
 	author: "WR_Doll770" # DO NOT CHANGE
 
 on join:
